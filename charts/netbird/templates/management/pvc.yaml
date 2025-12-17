@@ -1,0 +1,29 @@
+{{- if .Values.management.enabled }}
+{{- if not .Values.management.storage.existingClaim }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "netbird.management.claimName" . }}
+  labels:
+    {{- include "netbird.management.labels" . | nindent 4 }}
+spec:
+  accessModes:
+  {{- range .Values.management.storage.accessModes }}
+  - {{ . | quote }}
+  {{- end }}
+  {{- if .Values.management.storage.storageClass }}
+  storageClassName: {{ .Values.management.storage.storageClass }}
+  {{- end }}
+  {{- with .Values.management.storage.selector }}
+  selector:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.management.storage.dataSource }}
+  dataSource:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.management.storage.size }}
+{{- end }}
+{{- end }}

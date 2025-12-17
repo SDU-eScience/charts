@@ -1,0 +1,68 @@
+{{- if .Values.signal.enabled }}
+{{ $values := merge (.Values.signal) (.Values.global) }}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "netbird.signal.deploymentName" . }}
+  labels:
+    {{- include "netbird.signal.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ $values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "netbird.signal.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "netbird.signal.deploymentName" . }}
+      labels:
+        {{- include "netbird.signal.selectorLabels" . | nindent 8 }}
+      {{- with $values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Always
+      {{- with $values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      automountServiceAccountToken: false
+      containers:
+      - name: netbird
+        image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
+        imagePullPolicy: {{ $values.image.pullPolicy }}
+        args:
+        - --port=80
+        - --log-file=console
+        - --log-level=info
+        ports:
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        - containerPort: 80
+          name: grpc
+          protocol: TCP
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: grpc
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: grpc
+        {{- with $values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+{{- end }}

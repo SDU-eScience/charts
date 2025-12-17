@@ -1,0 +1,59 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  revisionHistoryLimit: 2
+  nodeSelector: {}
+  annotations: {}
+  tolerations: []
+  affinity: {}
+  resources: {}
+
+# global ingress if anything
+
+management:
+  enabled: true
+  env: {}
+  config: ""
+  storage:
+    enabled: false
+    size: 1Gi
+    selector: {}
+    dataSource: {}
+    storageClass: ""
+    accessModes:
+    - ReadWriteMany
+    existingClaim: ""
+    subPath: ""
+  image:
+    repository: netbirdio/management
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+    httpPort: 80
+    grpcPort: 33073
+
+signal:
+  enabled: true
+  image:
+    repository: netbirdio/signal
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+    grpcPort: 80
+
+dashboard:
+  enabled: true
+  env: {}
+  image:
+    repository: netbirdio/dashboard
+    pullPolicy: IfNotPresent
+    tag: "2.23.0"
+  service:
+    annotations: {}
+    type: ClusterIP
+    httpPort: 80

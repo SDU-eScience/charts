@@ -1,0 +1,95 @@
+{{- if .Values.management.enabled }}
+{{ $values := merge (.Values.management) (.Values.global) }}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "netbird.management.deploymentName" . }}
+  labels:
+    {{- include "netbird.management.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ $values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "netbird.management.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "netbird.management.deploymentName" . }}
+      labels:
+        {{- include "netbird.management.selectorLabels" . | nindent 8 }}
+      {{- with $values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Always
+      {{- with $values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      automountServiceAccountToken: false
+      volumes:
+      - name: config
+        secret:
+          secretName: {{ include "netbird.management.configSecret" . }}
+      - name: data
+      {{- if .Values.management.storage.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ include "netbird.management.claimName" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
+      containers:
+      - name: netbird
+        image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
+        imagePullPolicy: {{ $values.image.pullPolicy }}
+        args:
+        - --port=80
+        - --log-file=console
+        - --log-level=info
+        - --disable-anonymous-metrics=true
+        - --single-account-mode-domain=netbird.selfhosted
+        envFrom:
+        - secretRef:
+            name: {{ include "netbird.management.envSecret" . }}
+        ports:
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 33073
+          name: grpc
+          protocol: TCP
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          tcpSocket:
+            port: http
+        volumeMounts:
+        - name: config
+          mountPath: /etc/netbird
+        - name: data
+          mountPath: /var/lib/netbird
+          {{- if .Values.management.storage.subPath }}
+          subPath: {{ .Values.management.storage.subPath }}
+          {{- end }}
+        {{- with $values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+{{- end }}

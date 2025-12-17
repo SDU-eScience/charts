@@ -1,0 +1,25 @@
+{{- if .Values.management.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "netbird.management.deploymentName" . }}
+  labels:
+    {{- include "netbird.management.labels" . | nindent 4 }}
+  {{- with .Values.management.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.management.service.type }}
+  ports:
+  - name: grpc
+    port: {{ .Values.management.service.grpcPort }}
+    targetPort: grpc
+    protocol: TCP
+  - name: http
+    port: {{ .Values.management.service.httpPort }}
+    targetPort: http
+    protocol: TCP
+  selector:
+    {{- include "netbird.management.selectorLabels" . | nindent 4 }}
+{{- end }}

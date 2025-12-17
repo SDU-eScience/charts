@@ -1,0 +1,21 @@
+{{- if .Values.signal.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "netbird.signal.deploymentName" . }}
+  labels:
+    {{- include "netbird.signal.labels" . | nindent 4 }}
+  {{- with .Values.signal.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.signal.service.type }}
+  ports:
+  - name: grpc
+    port: {{ .Values.signal.service.grpcPort }}
+    targetPort: grpc
+    protocol: TCP
+  selector:
+    {{- include "netbird.signal.selectorLabels" . | nindent 4 }}
+{{- end }}
