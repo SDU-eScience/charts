@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   netbird:
   - apiVersion: v2
+    appVersion: 0.61.2
+    created: "2026-01-05T11:49:33.925215992Z"
+    description: Netbird VPN platform
+    digest: b47444965c5ec565ce1ded546b80e2a119d76c285ce4c6fc8c2308d8e11d2249
+    home: https://netbird.io
+    name: netbird
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/netbird-0.61.2/netbird-0.61.2.tgz
+    version: 0.61.2
+  - apiVersion: v2
     appVersion: 0.60.7
     created: "2025-12-17T13:59:05.933714669Z"
     description: Netbird VPN platform
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/netbird-0.60.5/netbird-0.60.5.tgz
     version: 0.60.5
-generated: "2025-12-17T13:59:05.933720129Z"
+generated: "2026-01-05T11:49:33.925224821Z"
