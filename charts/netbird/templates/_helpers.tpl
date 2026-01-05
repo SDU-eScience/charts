@@ -113,3 +113,26 @@ app.kubernetes.io/name: netbird
 app.kubernetes.io/component: signal
 app.kubernetes.io/instance: {{ include "netbird.signal.deploymentName" . }}
 {{- end }}
+
+
+{{/*
+Component: Relay
+*/}}
+{{- define "netbird.relay.deploymentName" -}}
+{{- printf "%s-relay" (include "netbird.fullname" .) }}
+{{- end }}
+
+{{- define "netbird.relay.labels" -}}
+{{ include "netbird.labels" . }}
+{{ include "netbird.relay.selectorLabels" . }}
+{{- end }}
+
+{{- define "netbird.relay.selectorLabels" -}}
+app.kubernetes.io/name: netbird
+app.kubernetes.io/component: relay
+app.kubernetes.io/instance: {{ include "netbird.relay.deploymentName" . }}
+{{- end }}
+
+{{- define "netbird.relay.envSecret" -}}
+{{- printf "%s-env" (include "netbird.relay.deploymentName" .) }}
+{{- end }}

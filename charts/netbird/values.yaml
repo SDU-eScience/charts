@@ -46,13 +46,25 @@ signal:
     type: ClusterIP
     grpcPort: 80
 
+relay:
+  enabled: true
+  env: {}
+  image:
+    repository: netbirdio/relay
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+    httpPort: 80
+
 dashboard:
   enabled: true
   env: {}
   image:
     repository: netbirdio/dashboard
     pullPolicy: IfNotPresent
-    tag: "2.23.0"
+    tag: "2.25.0"
   service:
     annotations: {}
     type: ClusterIP

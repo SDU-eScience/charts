@@ -40,12 +40,21 @@ Reference for all available Helm values.
 | signal.service.type                       | Service type                                                                    | `ClusterIP`                          |
 | signal.service.annotations                | Service annotations                                                             | `{}`                                 |
 | signal.service.grpcPort                   | Port for GRPC traffic                                                           | `80`                                 |
+| **relay**                                 | Settings for the relay deployment                                               |                                      |
+| relay.enabled                             | Create the relay deployment                                                     | `true`                               |
+| relay.env                                 | Environment variables (stored as a secret)                                      | `{}`                                 |
+| relay.image.repository                    | Image repository                                                                | `netbirdio/relay`                    |
+| relay.image.pullPolicy                    | Image pull policy                                                               | `IfNotPresent`                       |
+| relay.image.tag                           | Image tag                                                                       | `""`                                 |
+| relay.service.type                        | Service type                                                                    | `ClusterIP`                          |
+| relay.service.annotations                 | Service annotations                                                             | `{}`                                 |
+| relay.service.httpPort                    | Port for HTTP traffic                                                           | `80`                                 |
 | **dashboard**                             | Settings for the dashboard deployment                                           |                                      |
 | dashboard.enabled                         | Create the dashboard deployment                                                 | `true`                               |
 | dashboard.env                             | Environment variables (stored as a secret)                                      | `{}`                                 |
 | dashboard.image.repository                | Image repository                                                                | `netbirdio/dashboard`                |
 | dashboard.image.pullPolicy                | Image pull policy                                                               | `IfNotPresent`                       |
-| dashboard.image.tag                       | Image tag                                                                       | `2.23.0`                             |
+| dashboard.image.tag                       | Image tag                                                                       | `2.25.0`                             |
 | dashboard.service.type                    | Service type                                                                    | `ClusterIP`                          |
 | dashboard.service.annotations             | Service annotations                                                             | `{}`                                 |
 | dashboard.service.httpPort                | Port for HTTP traffic                                                           | `80`                                 |

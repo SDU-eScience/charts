@@ -1,0 +1,21 @@
+{{- if .Values.relay.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "netbird.relay.deploymentName" . }}
+  labels:
+    {{- include "netbird.relay.labels" . | nindent 4 }}
+  {{- with .Values.relay.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.relay.service.type }}
+  ports:
+  - name: http
+    port: {{ .Values.relay.service.httpPort }}
+    targetPort: http
+    protocol: TCP
+  selector:
+    {{- include "netbird.relay.selectorLabels" . | nindent 4 }}
+{{- end }}
