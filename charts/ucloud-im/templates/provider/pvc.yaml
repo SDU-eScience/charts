@@ -1,0 +1,25 @@
+{{- if not .Values.provider.storage.existingClaim }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "ucloud.provider.claimName" . }}
+spec:
+  accessModes:
+  {{- range .Values.provider.storage.accessModes }}
+  - {{ . | quote }}
+  {{- end }}
+  {{- if .Values.provider.storage.storageClass }}
+  storageClassName: {{ .Values.provider.storage.storageClass }}
+  {{- end }}
+  {{- with .Values.provider.storage.selector }}
+  selector:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  {{- with .Values.provider.storage.dataSource }}
+  dataSource:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.provider.storage.size }}
+{{- end }}

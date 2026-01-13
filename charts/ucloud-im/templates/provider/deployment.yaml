@@ -1,0 +1,90 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "ucloud.provider.deploymentName" . }}
+  labels:
+    {{- include "ucloud.provider.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.provider.revisionHistoryLimit }}
+  {{- if .Values.provider.strategyType }}
+  strategy:
+    type: {{ .Values.provider.strategyType }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ucloud.provider.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "ucloud.provider.deploymentName" . }}
+      labels:
+        {{- include "ucloud.provider.selectorLabels" . | nindent 8 }}
+      {{- with .Values.provider.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Always
+      {{- with .Values.provider.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.provider.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.provider.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      serviceAccountName: {{ include "ucloud.serviceAccountName" . }}
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: {{ include "ucloud.provider.claimName" . }}
+      - name: storage
+        persistentVolumeClaim:
+          claimName: {{ .Values.apps.storage.existingClaim }}
+      initContainers:
+      - name: init
+        image: alpine
+        command:
+        - 'sh'
+        - '-c'
+        - 'chown 11042:11042 /etc/ucloud'
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ucloud
+          {{- if .Values.provider.storage.subPath }}
+          subPath: {{ .Values.provider.storage.subPath }}
+          {{- end }}
+      containers:
+      - name: ucloud
+        image: {{ .Values.provider.image.repository }}:{{ .Values.provider.image.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.provider.image.pullPolicy }}
+        command:
+          {{- toYaml .Values.provider.command | nindent 8 }}
+        ports:
+        - containerPort: 7867
+          name: metrics
+          protocol: TCP
+        - containerPort: 42000
+          name: http
+          protocol: TCP
+        - containerPort: 52033
+          name: xds
+          protocol: TCP
+        - containerPort: 59231
+          name: webhook
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ucloud
+          {{- if .Values.provider.storage.subPath }}
+          subPath: {{ .Values.provider.storage.subPath }}
+          {{- end }}
+        - name: storage
+          mountPath: /mnt/storage
+          {{- if .Values.apps.storage.subPath }}
+          subPath: {{ .Values.apps.storage.subPath }}
+          {{- end }}

@@ -1,0 +1,43 @@
+nameOverride: ""
+fullnameOverride: ""
+
+# networkpolicies?
+
+storage:
+  size: 1Gi
+  selector: {}
+  dataSource: {}
+  storageClass: ""
+  accessModes:
+  - ReadWriteMany
+  existingClaim: ""
+  subPath: ""
+
+ingress:
+  enabled: false
+  annotations: {}
+  host: ""
+  tls: []
+
+global:
+  revisionHistoryLimit: 2
+  nodeSelector: {}
+  annotations: {}
+  tolerations: []
+  affinity: {}
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/core2
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+
+accounting: {}
+foundation: {}
+orchestrator: {}
+frontend:
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/webclient
+    pullPolicy: IfNotPresent
+    tag: ""

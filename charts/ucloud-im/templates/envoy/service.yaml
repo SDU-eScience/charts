@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "ucloud.envoy.deploymentName" . }}
+  {{- with .Values.envoy.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.envoy.service.type }}
+  ports:
+  - name: http
+    port: 8889
+    targetPort: http
+    protocol: TCP
+  selector:
+    {{- include "ucloud.envoy.selectorLabels" . | nindent 4 }}

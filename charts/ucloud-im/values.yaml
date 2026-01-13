@@ -1,0 +1,76 @@
+nameOverride: ""
+fullnameOverride: ""
+
+# health / liveness probe
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+netpol:
+  enabled: true
+  ingress:
+    http:
+      allowed: true
+      namespace: ""
+    metrics:
+      allowed: true
+      namespace: ""
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts: []
+  tls: []
+
+provider:
+  revisionHistoryLimit: 2
+  nodeSelector: {}
+  annotations: {}
+  tolerations: []
+  affinity: {}
+  command:
+  - /usr/bin/ucloud
+  storage:
+    size: 1Gi
+    selector: {}
+    dataSource: {}
+    storageClass: ""
+    accessModes:
+    - ReadWriteMany
+    existingClaim: ""
+    subPath: ""
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/im2
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    annotations: {}
+    type: ClusterIP
+
+envoy:
+  revisionHistoryLimit: 2
+  nodeSelector: {}
+  annotations: {}
+  tolerations: []
+  affinity: {}
+  image:
+    repository: envoyproxy/envoy
+    pullPolicy: IfNotPresent
+    tag: v1.23-latest
+  service:
+    annotations: {}
+    type: ClusterIP
+
+apps:
+  namespace: ucloud-apps
+  storage:
+    existingClaim: ""
+    subPath: ""
+  netpol:
+    enabled: true
+    egress:
+      allowed: true
+      blockPrivate: true
+      toRules: []

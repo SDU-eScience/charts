@@ -1,0 +1,39 @@
+ingressPrefixList:
+  foundation:
+  - /auth
+  - /api/avatar
+  - /api/mail
+  - /api/news
+  - /api/notifications
+  - /api/password/reset
+  - /api/projects
+  - /api/sla
+  - /api/support
+  - /api/tasks
+  accounting:
+  - /api/accounting
+  - /api/gifts
+  - /api/grants
+  - /api/products
+  orchestrator:
+  - /api/tokens
+  - /api/hpc
+  - /api/files
+  - /api/ingresses
+  - /api/iapps
+  - /api/jobs
+  - /api/licenses
+  - /api/providers
+  - /api/networkips
+  - /api/shares
+  - /api/ssh
+  frontend:
+  - /api/auth-callback
+  - /api/auth-callback-csrf
+  - /api/sync-callback
+  - /app
+  - /assets
+  - /favicon.ico
+  - /favicon.svg
+  - /AppVersion.txt
+  - /Images

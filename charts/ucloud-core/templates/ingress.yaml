@@ -1,0 +1,56 @@
+{{- if .Values.ingress.enabled }}
+{{- $private := .Files.Get "private.yaml" | fromYaml }}
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "ucloud.fullname" . }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 2 }}
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host | quote }}
+    http:
+      paths:
+      {{- range $prefix := $private.ingressPrefixList.foundation }}
+      - path: {{ $prefix }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "ucloud.foundation.deploymentName" $ }}
+            port:
+              name: http
+      {{- end }}
+      {{- range $prefix := $private.ingressPrefixList.accounting }}
+      - path: {{ $prefix }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "ucloud.accounting.deploymentName" $ }}
+            port:
+              name: http
+      {{- end }}
+      {{- range $prefix := $private.ingressPrefixList.orchestrator }}
+      - path: {{ $prefix }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "ucloud.orchestrator.deploymentName" $ }}
+            port:
+              name: http
+      {{- end }}
+      {{- range $prefix := $private.ingressPrefixList.frontend }}
+      - path: {{ $prefix }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "ucloud.frontend.deploymentName" $ }}
+            port:
+              name: http
+      {{- end }}
+{{- end }}

@@ -1,0 +1,96 @@
+{{ $values := merge (.Values.accounting) (.Values.global) }}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "ucloud.accounting.deploymentName" . }}
+  labels:
+    {{- include "ucloud.accounting.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ $values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "ucloud.accounting.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "ucloud.accounting.deploymentName" . }}
+      labels:
+        {{- include "ucloud.accounting.selectorLabels" . | nindent 8 }}
+      {{- with $values.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Always
+      {{- with $values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      automountServiceAccountToken: false
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: {{ include "ucloud.storage.claimName" . }}
+      initContainers:
+      - name: init
+        image: alpine
+        command:
+        - 'sh'
+        - '-c'
+        - 'chown 11042:11042 /etc/ucloud'
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ucloud
+          {{- if .Values.storage.subPath }}
+          subPath: {{ .Values.storage.subPath }}
+          {{- end }}
+      containers:
+      - name: ucloud
+        image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
+        imagePullPolicy: {{ $values.image.pullPolicy }}
+        command:
+        - '/usr/bin/ucloud'
+        - 'accounting'
+        ports:
+        - containerPort: 7867
+          name: metrics
+          protocol: TCP
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ucloud
+          {{- if .Values.storage.subPath }}
+          subPath: {{ .Values.storage.subPath }}
+          {{- end }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "ucloud.accounting.deploymentName" . }}
+  {{- with $values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ $values.service.type }}
+  ports:
+  - name: metrics
+    port: 7867
+    targetPort: metrics
+    protocol: TCP
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  selector:
+    {{- include "ucloud.accounting.selectorLabels" . | nindent 4 }}

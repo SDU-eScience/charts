@@ -1,0 +1,60 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "ucloud.envoy.deploymentName" . }}
+  labels:
+    {{- include "ucloud.envoy.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.envoy.revisionHistoryLimit }}
+  {{- if .Values.envoy.strategyType }}
+  strategy:
+    type: {{ .Values.envoy.strategyType }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "ucloud.envoy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      name: {{ include "ucloud.envoy.deploymentName" . }}
+      labels:
+        {{- include "ucloud.envoy.selectorLabels" . | nindent 8 }}
+      {{- with .Values.envoy.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: Always
+      {{- with .Values.envoy.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.envoy.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.envoy.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      automountServiceAccountToken: false
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "ucloud.envoy.deploymentName" . }}
+          defaultMode: 420
+      containers:
+      - name: envoy
+        image: {{ .Values.envoy.image.repository }}:{{ .Values.envoy.image.tag }}
+        imagePullPolicy: {{ .Values.envoy.image.pullPolicy }}
+        command:
+        - 'envoy'
+        - '--config-path'
+        - '/etc/envoy/config.yaml'
+        ports:
+        - containerPort: 8889
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /etc/envoy

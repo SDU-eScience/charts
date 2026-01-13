@@ -1,0 +1,126 @@
+{{- if .Values.netpol.enabled }}
+{{- $ingress := .Values.netpol.ingress }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "ucloud.fullname" . }}-internal
+spec:
+  podSelector: {}
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+  policyTypes:
+  - Ingress
+{{- if $ingress.http.allowed }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "ucloud.envoy.deploymentName" . }}-http
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "ucloud.envoy.selectorLabels" . | nindent 6 }}
+  ingress:
+  - ports:
+    - port: 8889
+      protocol: TCP
+    {{- if $ingress.http.namespace }}
+    from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ $ingress.http.namespace }}
+    {{- end }}
+  policyTypes:
+  - Ingress
+{{- end }}
+{{- if $ingress.metrics.allowed }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "ucloud.provider.deploymentName" . }}-metrics
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "ucloud.provider.selectorLabels" . | nindent 6 }}
+  ingress:
+  - ports:
+    - port: 7867
+      protocol: TCP
+    {{- if $ingress.metrics.namespace }}
+    from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ $ingress.metrics.namespace }}
+    {{- end }}
+  policyTypes:
+  - Ingress
+{{- end }}
+{{- end }}
+{{- if .Values.apps.netpol.enabled }}
+{{- $egress := .Values.apps.netpol.egress }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.apps.namespace }}-global-ingress
+  namespace: {{ .Values.apps.namespace }}
+spec:
+  podSelector: {}
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.apps.namespace }}-global-egress
+  namespace: {{ .Values.apps.namespace }}
+spec:
+  podSelector:
+    matchExpressions:
+    - key: ucloud.dk/firewallSensitive
+      operator: DoesNotExist
+  {{- if and $egress.allowed $egress.blockPrivate }}
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ .Values.apps.namespace }}
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    {{- with $egress.toRules }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    - ipBlock:
+        cidr: 0.0.0.0/0
+        except:
+        - 10.0.0.0/8
+        - 100.64.0.0/10
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - 169.254.0.0/16
+  {{- else if $egress.allowed }}
+  egress:
+  - {}
+  {{- else }}
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: {{ .Values.apps.namespace }}
+  {{- end }}
+  policyTypes:
+  - Egress
+{{- end }}
