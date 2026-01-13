@@ -1,5 +1,17 @@
 apiVersion: v1
 entries:
+  monitoring-stack:
+  - apiVersion: v2
+    appVersion: 3.9.1
+    created: "2026-01-13T09:04:17.946015094Z"
+    description: Monitoring stack based on Prometheus and Alertmanager
+    digest: 598c6479d9a4e33db216884846c73162582fd37ba6f65f07a57b723c583b5f9b
+    home: https://prometheus.io
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/monitoring-stack-1.0.0/monitoring-stack-1.0.0.tgz
+    version: 1.0.0
   netbird:
   - apiVersion: v2
     appVersion: 0.61.2
@@ -23,4 +35,4 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/netbird-0.60.5/netbird-0.60.5.tgz
     version: 0.60.5
-generated: "2026-01-05T11:49:33.925224821Z"
+generated: "2026-01-13T09:04:17.946028008Z"
