@@ -1,0 +1,28 @@
+{{- if .Values.prometheus.enabled }}
+{{- $values := .Values.prometheus }}
+{{- range $index, $instance := .Values.prometheus.instances }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $instance.name }}
+  labels:
+    {{- include "common.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/instance: {{ $instance.name }}
+  {{- with $values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ $values.service.type }}
+  ports:
+  - name: http
+    port: 9090
+    targetPort: http
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/instance: {{ $instance.name }}
+---
+{{- end }}
+{{- end }}

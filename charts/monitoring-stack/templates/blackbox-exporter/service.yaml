@@ -1,0 +1,25 @@
+{{- if .Values.blackbox_exporter.enabled }}
+{{ $values := .Values.blackbox_exporter }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $values.name }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/name: blackbox-exporter
+    app.kubernetes.io/instance: {{ $values.name }}
+  {{- with $values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ $values.service.type }}
+  ports:
+  - name: http
+    port: 9115
+    targetPort: http
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: blackbox-exporter
+    app.kubernetes.io/instance: {{ $values.name }}
+{{- end }}

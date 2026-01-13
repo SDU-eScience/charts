@@ -1,0 +1,8 @@
+apiVersion: v2
+name: monitoring-stack
+type: application
+version: 1.0.0
+
+description: "Monitoring stack based on Prometheus and Alertmanager"
+appVersion: "3.9.1"
+home: "https://prometheus.io"

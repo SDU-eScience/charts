@@ -1,0 +1,25 @@
+{{- if .Values.idrac_exporter.enabled }}
+{{ $values := .Values.idrac_exporter }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $values.name }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/name: idrac-exporter
+    app.kubernetes.io/instance: {{ $values.name }}
+  {{- with $values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ $values.service.type }}
+  ports:
+  - name: http
+    port: 9348
+    targetPort: http
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: idrac-exporter
+    app.kubernetes.io/instance: {{ $values.name }}
+{{- end }}

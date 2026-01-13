@@ -1,0 +1,64 @@
+storage: []
+ingress: []
+
+prometheus:
+  enabled: true
+  args: []
+  volumes: []
+  volumeMounts: []
+  nodeSelector: {}
+  image:
+    repository: quay.io/prometheus/prometheus
+    pullPolicy: IfNotPresent
+    tag: v3.9.1
+  service:
+    annotations: {}
+    type: ClusterIP
+  instances: []
+
+alertmanager:
+  enabled: true
+  args: []
+  volumes: []
+  volumeMounts: []
+  nodeSelector: {}
+  image:
+    repository: quay.io/prometheus/alertmanager
+    pullPolicy: IfNotPresent
+    tag: v0.30.1
+  service:
+    annotations: {}
+    type: ClusterIP
+  instances: []
+
+idrac_exporter:
+  enabled: false
+  name: idrac-exporter
+  replicas: 1
+  args: []
+  volumes: []
+  volumeMounts: []
+  nodeSelector: {}
+  image:
+    repository: ghcr.io/mrlhansen/idrac_exporter
+    pullPolicy: IfNotPresent
+    tag: 2.3.2
+  service:
+    annotations: {}
+    type: ClusterIP
+
+blackbox_exporter:
+  enabled: false
+  name: blackbox-exporter
+  replicas: 1
+  args: []
+  volumes: []
+  volumeMounts: []
+  nodeSelector: {}
+  image:
+    repository: quay.io/prometheus/blackbox-exporter
+    pullPolicy: IfNotPresent
+    tag: v0.28.0
+  service:
+    annotations: {}
+    type: ClusterIP

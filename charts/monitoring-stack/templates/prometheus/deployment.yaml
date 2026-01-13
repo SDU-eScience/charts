@@ -1,0 +1,75 @@
+{{- if .Values.prometheus.enabled }}
+{{- $values := .Values.prometheus }}
+{{- range $index, $instance := .Values.prometheus.instances }}
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ $instance.name }}
+  labels:
+    {{- include "common.labels" $ | nindent 4 }}
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/instance: {{ $instance.name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/instance: {{ $instance.name }}
+  template:
+    metadata:
+      name: {{ $instance.name }}
+      labels:
+        app.kubernetes.io/name: prometheus
+        app.kubernetes.io/instance: {{ $instance.name }}
+    spec:
+      restartPolicy: Always
+      automountServiceAccountToken: false
+      {{- with (default $values.nodeSelector $instance.nodeSelector) }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: prometheus
+      {{- with (default $values.volumes $instance.volumes) }}
+      volumes:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+      - name: prometheus
+        image: {{ $values.image.repository }}:{{ $values.image.tag }}
+        imagePullPolicy: {{ $values.image.pullPolicy }}
+        {{- with (default $values.args $instance.args) }}
+        args:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        ports:
+        - containerPort: 9090
+          name: http
+          protocol: TCP
+        livenessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          httpGet:
+            path: /-/healthy
+            port: http
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          httpGet:
+            path: /-/ready
+            port: http
+        {{- with (default $values.volumeMounts $instance.volumeMounts) }}
+        volumeMounts:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+---
+{{- end }}
+{{- end }}
