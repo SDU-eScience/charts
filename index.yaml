@@ -35,4 +35,28 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/netbird-0.60.5/netbird-0.60.5.tgz
     version: 0.60.5
-generated: "2026-01-13T09:04:17.946028008Z"
+  ucloud-core:
+  - apiVersion: v2
+    appVersion: 2025.4.165
+    created: "2026-01-13T12:18:02.409289287Z"
+    description: UCloud is an interactive digital research environment
+    digest: 56832f5ba274e5eff077c756c4fc12899229bb80e1258af98f2d20f1eccb688f
+    home: https://github.com/SDU-eScience/UCloud
+    name: ucloud-core
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/ucloud-core-1.0.0/ucloud-core-1.0.0.tgz
+    version: 1.0.0
+  ucloud-im:
+  - apiVersion: v2
+    appVersion: 2025.4.131
+    created: "2026-01-13T12:18:02.57386505Z"
+    description: UCloud is an interactive digital research environment
+    digest: be638811da311728242c232f69caa3d494f988c89d405cd52d5a8a4f8b700f00
+    home: https://github.com/SDU-eScience/UCloud
+    name: ucloud-im
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/ucloud-im-1.0.0/ucloud-im-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-01-13T12:18:02.573874187Z"
