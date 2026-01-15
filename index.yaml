@@ -3,6 +3,17 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 3.9.1
+    created: "2026-01-15T08:32:45.725625565Z"
+    description: Monitoring stack based on Prometheus and Alertmanager
+    digest: 4d6ffb4fb9118996285bd5261413acf05cb93aa327cef9eb2c28cbb885b1f612
+    home: https://prometheus.io
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/monitoring-stack-1.0.1/monitoring-stack-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 3.9.1
     created: "2026-01-13T09:04:17.946015094Z"
     description: Monitoring stack based on Prometheus and Alertmanager
     digest: 598c6479d9a4e33db216884846c73162582fd37ba6f65f07a57b723c583b5f9b
@@ -59,4 +70,4 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/ucloud-im-1.0.0/ucloud-im-1.0.0.tgz
     version: 1.0.0
-generated: "2026-01-13T12:18:02.573874187Z"
+generated: "2026-01-15T08:32:45.725636636Z"
