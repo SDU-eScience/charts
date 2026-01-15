@@ -1,7 +1,7 @@
 apiVersion: v2
 name: monitoring-stack
 type: application
-version: 1.0.0
+version: 1.0.1
 
 description: "Monitoring stack based on Prometheus and Alertmanager"
 appVersion: "3.9.1"
