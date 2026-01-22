@@ -24,10 +24,12 @@ Some general comments about the configuration.
 
 * UCloud/Core must be accessible via https on a public address. An ingress ressource can automatically be provisioned. Any cross communication between the different deployments is done via the public address.
 
-Use the following Helm command for installing the software.
+Use the following Helm commands for installing the software.
 
 ```console
-$ helm install myrelease ./ucloud-core -n ucloud-core --create-namespace -f values.yaml
+$ helm repo add sdu-escience https://sdu-escience.github.io/charts
+$ helm repo update
+$ helm install myrelease sdu-escience/ucloud-core -n ucloud-core --create-namespace -f values.yaml
 ```
 
 
@@ -45,6 +47,7 @@ Reference for all available Helm values.
 | storage.dataSource                        | Custom data source for the PVC                                           | `{}`                                 |
 | ingress.enabled                           | Enable ingress ressource                                                 | `false`                              |
 | ingress.annotations                       | Ingress annotations                                                      | `{}`                                 |
+| ingress.className                         | Ingress class name                                                       | `""`                                 |
 | ingress.host                              | Ingress host name                                                        | `""`                                 |
 | ingress.tls                               | Ingress TLS configuration                                                | `[]`                                 |
 | global.revisionHistoryLimit               | Number of retained replica sets to allow rollback                        | `2`                                  |

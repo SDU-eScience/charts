@@ -12,6 +12,9 @@ spec:
   tls:
     {{- toYaml . | nindent 2 }}
   {{- end }}
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   rules:
   {{- range $host := .Values.ingress.hosts }}
   - host: {{ $host | quote }}

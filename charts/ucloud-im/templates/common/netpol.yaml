@@ -1,7 +1,7 @@
 {{- if .Values.netpol.enabled }}
 {{- $ingress := .Values.netpol.ingress }}
-apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ include "ucloud.fullname" . }}-internal
 spec:

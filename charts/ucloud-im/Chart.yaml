@@ -1,7 +1,7 @@
 apiVersion: v2
 name: ucloud-im
 type: application
-version: 1.0.0
+version: 1.0.1
 
 description: "UCloud is an interactive digital research environment"
 appVersion: "2025.4.131"

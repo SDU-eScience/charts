@@ -1,6 +1,6 @@
 {{- if not .Values.provider.storage.existingClaim }}
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
   name: {{ include "ucloud.provider.claimName" . }}
 spec:

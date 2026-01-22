@@ -21,6 +21,7 @@ netpol:
 ingress:
   enabled: false
   annotations: {}
+  className: ""
   hosts: []
   tls: []
 

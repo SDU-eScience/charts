@@ -115,10 +115,12 @@ Some general comments about the configuration.
 
 * Finally some configuration is needed for the user jobs. In the `apps` section we specify the namespace for running user jobs and the name of an existing volume for storing user data.
 
-Use the following Helm command for installing the software.
+Use the following Helm commands for installing the software.
 
 ```console
-$ helm install myrelease ./ucloud-im -n ucloud-im -f values.yaml
+$ helm repo add sdu-escience https://sdu-escience.github.io/charts
+$ helm repo update
+$ helm install myrelease sdu-escience/ucloud-im -n ucloud-im -f values.yaml
 ```
 
 
@@ -137,6 +139,7 @@ Reference for all available Helm values.
 | netpol.ingress.metrics.namespace          | Allow only ingress traffic to the metrics endpoint from this namespace   | `""`                                 |
 | ingress.enabled                           | Specifies whether an Ingress should be created                           | `false`                              |
 | ingress.annotations                       | Additional custom annotations for the Ingress                            | `{}`                                 |
+| ingress.className                         | Name of the ingress class                                                | `""`                                 |
 | ingress.hosts                             | List of hosts used for the Ingress                                       | `[]`                                 |
 | ingress.tls                               | TLS configuration the Ingress                                            | `[]`                                 |
 | provider.revisionHistoryLimit             | The number of retained replica sets to allow rollback                    | `2`                                  |
