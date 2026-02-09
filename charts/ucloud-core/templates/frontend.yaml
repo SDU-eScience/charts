@@ -39,8 +39,6 @@ spec:
       - name: ucloud
         image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
         imagePullPolicy: {{ $values.image.pullPolicy }}
-        command:
-        - '/opt/service/bin/service'
         ports:
         - containerPort: 8080
           name: http

@@ -26,19 +26,30 @@ global:
   annotations: {}
   tolerations: []
   affinity: {}
-  image:
-    repository: dreg.cloud.sdu.dk/ucloud/core2
-    pullPolicy: IfNotPresent
-    tag: ""
   service:
     annotations: {}
     type: ClusterIP
 
-accounting: {}
-foundation: {}
-orchestrator: {}
+accounting:
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/core2
+    pullPolicy: IfNotPresent
+    tag: "2026.1.39"
+
+foundation:
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/core2
+    pullPolicy: IfNotPresent
+    tag: "2026.1.39"
+
+orchestrator:
+  image:
+    repository: dreg.cloud.sdu.dk/ucloud/core2
+    pullPolicy: IfNotPresent
+    tag: "2026.1.39"
+
 frontend:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/webclient
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "2026.1.41"

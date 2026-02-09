@@ -36,6 +36,10 @@ $ helm install myrelease sdu-escience/ucloud-core -n ucloud-core --create-namesp
 ## Helm Values
 Reference for all available Helm values.
 
+
+### Storage
+Configuration for the shared storage ressource.
+
 | Name                                      | Description                                                              | Value                                |
 | ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | storage.size                              | Persistent volume size                                                   | `1Gi`                                |
@@ -45,25 +49,97 @@ Reference for all available Helm values.
 | storage.subPath                           | The subdirectory of the volume to mount in the containers                | `""`                                 |
 | storage.selector                          | Additional labels to match for the PVC                                   | `{}`                                 |
 | storage.dataSource                        | Custom data source for the PVC                                           | `{}`                                 |
+
+
+### Ingress
+Configuration for the shared ingress ressource.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | ingress.enabled                           | Enable ingress ressource                                                 | `false`                              |
 | ingress.annotations                       | Ingress annotations                                                      | `{}`                                 |
 | ingress.className                         | Ingress class name                                                       | `""`                                 |
 | ingress.host                              | Ingress host name                                                        | `""`                                 |
 | ingress.tls                               | Ingress TLS configuration                                                | `[]`                                 |
+
+
+### Global
+Global configuration for all deployments
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | global.revisionHistoryLimit               | Number of retained replica sets to allow rollback                        | `2`                                  |
 | global.nodeSelector                       | Pod node selector labels                                                 | `{}`                                 |
 | global.annotations                        | Pod annotations                                                          | `{}`                                 |
 | global.tolerations                        | Pod tolerations                                                          | `[]`                                 |
 | global.affinity                           | Pod affinity                                                             | `{}`                                 |
-| global.image.repository                   | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
-| global.image.pullPolicy                   | Image pull policy                                                        | `IfNotPresent`                       |
-| global.image.tag                          | Image tag                                                                | `""`                                 |
 | global.service.type                       | Service type                                                             | `ClusterIP`                          |
 | global.service.annotations                | Service annotations                                                      | `{}`                                 |
-| accounting                                | Settings for accounting deployment, overrides `global` settings          | `{}`                                 |
-| foundation                                | Settings for foundation deployment, overrides `global` settings          | `{}`                                 |
-| orchestrator                              | Settings for orchestrator deployment, overrides `global` settings        | `{}`                                 |
-| frontend                                  | Settings for frontend deployment, overrides `global` settings            | `{}`                                 |
-| frontend.image.repository                 | Frontend image repository                                                | `dreg.cloud.sdu.dk/ucloud/webclient` |
-| frontend.image.pullPolicy                 | Frontend image pull policy                                               | `IfNotPresent`                       |
-| frontend.image.tag                        | Frontend image tag                                                       | `""`                                 |
+
+
+### Foundation
+Configuration for the `foundation` deployment.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| foundation.revisionHistoryLimit           | Number of retained replica sets to allow rollback                        | `2`                                  |
+| foundation.nodeSelector                   | Pod node selector labels                                                 | `{}`                                 |
+| foundation.annotations                    | Pod annotations                                                          | `{}`                                 |
+| foundation.tolerations                    | Pod tolerations                                                          | `[]`                                 |
+| foundation.affinity                       | Pod affinity                                                             | `{}`                                 |
+| foundation.image.repository               | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
+| foundation.image.pullPolicy               | Image pull policy                                                        | `IfNotPresent`                       |
+| foundation.image.tag                      | Image tag                                                                | `2026.1.39`                          |
+| foundation.service.type                   | Service type                                                             | `ClusterIP`                          |
+| foundation.service.annotations            | Service annotations                                                      | `{}`                                 |
+
+
+### Accounting
+Configuration for the `accounting` deployment.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| accounting.revisionHistoryLimit           | Number of retained replica sets to allow rollback                        | `2`                                  |
+| accounting.nodeSelector                   | Pod node selector labels                                                 | `{}`                                 |
+| accounting.annotations                    | Pod annotations                                                          | `{}`                                 |
+| accounting.tolerations                    | Pod tolerations                                                          | `[]`                                 |
+| accounting.affinity                       | Pod affinity                                                             | `{}`                                 |
+| accounting.image.repository               | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
+| accounting.image.pullPolicy               | Image pull policy                                                        | `IfNotPresent`                       |
+| accounting.image.tag                      | Image tag                                                                | `2026.1.39`                          |
+| accounting.service.type                   | Service type                                                             | `ClusterIP`                          |
+| accounting.service.annotations            | Service annotations                                                      | `{}`                                 |
+
+
+### Orchestrator
+Configuration for the `orchestrator` deployment.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| orchestrator.revisionHistoryLimit         | Number of retained replica sets to allow rollback                        | `2`                                  |
+| orchestrator.nodeSelector                 | Pod node selector labels                                                 | `{}`                                 |
+| orchestrator.annotations                  | Pod annotations                                                          | `{}`                                 |
+| orchestrator.tolerations                  | Pod tolerations                                                          | `[]`                                 |
+| orchestrator.affinity                     | Pod affinity                                                             | `{}`                                 |
+| orchestrator.image.repository             | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
+| orchestrator.image.pullPolicy             | Image pull policy                                                        | `IfNotPresent`                       |
+| orchestrator.image.tag                    | Image tag                                                                | `2026.1.39`                          |
+| orchestrator.service.type                 | Service type                                                             | `ClusterIP`                          |
+| orchestrator.service.annotations          | Service annotations                                                      | `{}`                                 |
+
+
+### Frontend
+Configuration for the `frontend` deployment.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| frontend.revisionHistoryLimit             | Number of retained replica sets to allow rollback                        | `2`                                  |
+| frontend.nodeSelector                     | Pod node selector labels                                                 | `{}`                                 |
+| frontend.annotations                      | Pod annotations                                                          | `{}`                                 |
+| frontend.tolerations                      | Pod tolerations                                                          | `[]`                                 |
+| frontend.affinity                         | Pod affinity                                                             | `{}`                                 |
+| frontend.image.repository                 | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/webclient` |
+| frontend.image.pullPolicy                 | Image pull policy                                                        | `IfNotPresent`                       |
+| frontend.image.tag                        | Image tag                                                                | `2026.1.41`                          |
+| frontend.service.type                     | Service type                                                             | `ClusterIP`                          |
+| frontend.service.annotations              | Service annotations                                                      | `{}`                                 |
