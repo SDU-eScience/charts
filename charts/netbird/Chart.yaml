@@ -1,8 +1,8 @@
 apiVersion: v2
 name: netbird
 type: application
-version: 0.61.2
+version: 0.66.0
 
 description: "Netbird VPN platform"
-appVersion: "0.61.2"
+appVersion: "0.66.0"
 home: "https://netbird.io"

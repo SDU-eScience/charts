@@ -1,0 +1,25 @@
+{{- if .Values.server.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "netbird.server.deploymentName" . }}
+  labels:
+    {{- include "netbird.server.labels" . | nindent 4 }}
+  {{- with .Values.server.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.server.service.type }}
+  ports:
+  - name: http
+    port: {{ .Values.server.service.httpPort }}
+    targetPort: http
+    protocol: TCP
+  - name: stun
+    port: {{ .Values.server.service.stunPort }}
+    targetPort: stun
+    protocol: UDP
+  selector:
+    {{- include "netbird.server.selectorLabels" . | nindent 4 }}
+{{- end }}

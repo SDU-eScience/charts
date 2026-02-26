@@ -66,73 +66,27 @@ app.kubernetes.io/instance: {{ include "netbird.dashboard.deploymentName" . }}
 
 
 {{/*
-Component: Management
+Component: Server
 */}}
-{{- define "netbird.management.deploymentName" -}}
-{{- printf "%s-management" (include "netbird.fullname" .) }}
+{{- define "netbird.server.deploymentName" -}}
+{{- printf "%s-server" (include "netbird.fullname" .) }}
 {{- end }}
 
-{{- define "netbird.management.labels" -}}
+{{- define "netbird.server.labels" -}}
 {{ include "netbird.labels" . }}
-{{ include "netbird.management.selectorLabels" . }}
+{{ include "netbird.server.selectorLabels" . }}
 {{- end }}
 
-{{- define "netbird.management.selectorLabels" -}}
+{{- define "netbird.server.selectorLabels" -}}
 app.kubernetes.io/name: netbird
-app.kubernetes.io/component: management
-app.kubernetes.io/instance: {{ include "netbird.management.deploymentName" . }}
+app.kubernetes.io/component: server
+app.kubernetes.io/instance: {{ include "netbird.server.deploymentName" . }}
 {{- end }}
 
-{{- define "netbird.management.configSecret" -}}
-{{- printf "%s-config" (include "netbird.management.deploymentName" .) }}
+{{- define "netbird.server.configSecret" -}}
+{{- printf "%s-config" (include "netbird.server.deploymentName" .) }}
 {{- end }}
 
-{{- define "netbird.management.envSecret" -}}
-{{- printf "%s-env" (include "netbird.management.deploymentName" .) }}
-{{- end }}
-
-{{- define "netbird.management.claimName" -}}
-{{- default (include "netbird.management.deploymentName" .) .Values.management.storage.existingClaim }}
-{{- end }}
-
-
-{{/*
-Component: Signal
-*/}}
-{{- define "netbird.signal.deploymentName" -}}
-{{- printf "%s-signal" (include "netbird.fullname" .) }}
-{{- end }}
-
-{{- define "netbird.signal.labels" -}}
-{{ include "netbird.labels" . }}
-{{ include "netbird.signal.selectorLabels" . }}
-{{- end }}
-
-{{- define "netbird.signal.selectorLabels" -}}
-app.kubernetes.io/name: netbird
-app.kubernetes.io/component: signal
-app.kubernetes.io/instance: {{ include "netbird.signal.deploymentName" . }}
-{{- end }}
-
-
-{{/*
-Component: Relay
-*/}}
-{{- define "netbird.relay.deploymentName" -}}
-{{- printf "%s-relay" (include "netbird.fullname" .) }}
-{{- end }}
-
-{{- define "netbird.relay.labels" -}}
-{{ include "netbird.labels" . }}
-{{ include "netbird.relay.selectorLabels" . }}
-{{- end }}
-
-{{- define "netbird.relay.selectorLabels" -}}
-app.kubernetes.io/name: netbird
-app.kubernetes.io/component: relay
-app.kubernetes.io/instance: {{ include "netbird.relay.deploymentName" . }}
-{{- end }}
-
-{{- define "netbird.relay.envSecret" -}}
-{{- printf "%s-env" (include "netbird.relay.deploymentName" .) }}
+{{- define "netbird.server.claimName" -}}
+{{- default (include "netbird.server.deploymentName" .) .Values.server.storage.existingClaim }}
 {{- end }}

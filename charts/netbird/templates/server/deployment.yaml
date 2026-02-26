@@ -1,22 +1,22 @@
-{{- if .Values.signal.enabled }}
-{{ $values := merge (.Values.signal) (.Values.global) }}
+{{- if .Values.server.enabled }}
+{{ $values := merge (.Values.server) (.Values.global) }}
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ include "netbird.signal.deploymentName" . }}
+  name: {{ include "netbird.server.deploymentName" . }}
   labels:
-    {{- include "netbird.signal.labels" . | nindent 4 }}
+    {{- include "netbird.server.labels" . | nindent 4 }}
 spec:
   replicas: 1
   revisionHistoryLimit: {{ $values.revisionHistoryLimit }}
   selector:
     matchLabels:
-      {{- include "netbird.signal.selectorLabels" . | nindent 6 }}
+      {{- include "netbird.server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      name: {{ include "netbird.signal.deploymentName" . }}
+      name: {{ include "netbird.server.deploymentName" . }}
       labels:
-        {{- include "netbird.signal.selectorLabels" . | nindent 8 }}
+        {{- include "netbird.server.selectorLabels" . | nindent 8 }}
       {{- with $values.annotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
@@ -36,31 +36,52 @@ spec:
         {{- toYaml . | nindent 6 }}
       {{- end }}
       automountServiceAccountToken: false
+      volumes:
+      - name: config
+        secret:
+          secretName: {{ include "netbird.server.configSecret" . }}
+      - name: data
+      {{- if .Values.server.storage.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ include "netbird.server.claimName" . }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
       containers:
       - name: netbird
         image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
         imagePullPolicy: {{ $values.image.pullPolicy }}
         args:
-        - --port=80
-        - --log-file=console
-        - --log-level=info
+        - --config
+        - /etc/netbird/config.yaml
         ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 3478
+          name: stun
+          protocol: UDP
         - containerPort: 9090
           name: metrics
-          protocol: TCP
-        - containerPort: 80
-          name: grpc
           protocol: TCP
         livenessProbe:
           initialDelaySeconds: 5
           periodSeconds: 10
           tcpSocket:
-            port: grpc
+            port: http
         readinessProbe:
           initialDelaySeconds: 5
           periodSeconds: 10
           tcpSocket:
-            port: grpc
+            port: http
+        volumeMounts:
+        - name: config
+          mountPath: /etc/netbird
+        - name: data
+          mountPath: /var/lib/netbird
+          {{- if .Values.server.storage.subPath }}
+          subPath: {{ .Values.server.storage.subPath }}
+          {{- end }}
         {{- with $values.resources }}
         resources:
           {{- toYaml . | nindent 10 }}

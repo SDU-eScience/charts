@@ -9,11 +9,8 @@ global:
   affinity: {}
   resources: {}
 
-# global ingress if anything
-
-management:
+server:
   enabled: true
-  env: {}
   config: ""
   storage:
     enabled: false
@@ -26,37 +23,14 @@ management:
     existingClaim: ""
     subPath: ""
   image:
-    repository: netbirdio/management
+    repository: netbirdio/server
     pullPolicy: IfNotPresent
     tag: ""
   service:
     annotations: {}
     type: ClusterIP
-    httpPort: 80
-    grpcPort: 33073
-
-signal:
-  enabled: true
-  image:
-    repository: netbirdio/signal
-    pullPolicy: IfNotPresent
-    tag: ""
-  service:
-    annotations: {}
-    type: ClusterIP
-    grpcPort: 80
-
-relay:
-  enabled: true
-  env: {}
-  image:
-    repository: netbirdio/relay
-    pullPolicy: IfNotPresent
-    tag: ""
-  service:
-    annotations: {}
-    type: ClusterIP
-    httpPort: 80
+    httpPort: 8080
+    stunPort: 3478
 
 dashboard:
   enabled: true
@@ -64,8 +38,8 @@ dashboard:
   image:
     repository: netbirdio/dashboard
     pullPolicy: IfNotPresent
-    tag: "2.25.0"
+    tag: "2.33.0"
   service:
     annotations: {}
     type: ClusterIP
-    httpPort: 80
+    httpPort: 8081
