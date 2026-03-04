@@ -23,7 +23,7 @@ server:
     existingClaim: ""
     subPath: ""
   image:
-    repository: netbirdio/server
+    repository: netbirdio/netbird-server
     pullPolicy: IfNotPresent
     tag: ""
   service:

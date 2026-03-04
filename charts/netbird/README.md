@@ -34,7 +34,7 @@ Configuration for the `server` deployment.
 | server.storage.accessModes                | Persistent volume access modes                                                  | `["ReadWriteMany"]`                  |
 | server.storage.existingClaim              | Use an existing PVC which must be created beforehand                            | `""`                                 |
 | server.storage.subPath                    | The subdirectory of the volume to mount in the containers                       | `""`                                 |
-| server.image.repository                   | Image repository                                                                | `netbirdio/management`               |
+| server.image.repository                   | Image repository                                                                | `netbirdio/netbird-server`           |
 | server.image.pullPolicy                   | Image pull policy                                                               | `IfNotPresent`                       |
 | server.image.tag                          | Image tag                                                                       | `""`                                 |
 | server.service.type                       | Service type                                                                    | `ClusterIP`                          |
