@@ -8,8 +8,8 @@ spec:
   {{- range .Values.storage.accessModes }}
   - {{ . | quote }}
   {{- end }}
-  {{- if .Values.storage.storageClass }}
-  storageClassName: {{ .Values.storage.storageClass }}
+  {{- if .Values.storage.className }}
+  storageClassName: {{ .Values.storage.className }}
   {{- end }}
   {{- with .Values.storage.selector }}
   selector:

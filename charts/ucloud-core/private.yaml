@@ -27,6 +27,7 @@ ingressPrefixList:
   - /api/networkips
   - /api/shares
   - /api/ssh
+  - /api/tasks/pauseOrCancel
   frontend:
   - /api/auth-callback
   - /api/auth-callback-csrf

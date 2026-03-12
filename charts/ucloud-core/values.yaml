@@ -7,7 +7,7 @@ storage:
   size: 1Gi
   selector: {}
   dataSource: {}
-  storageClass: ""
+  className: ""
   accessModes:
   - ReadWriteMany
   existingClaim: ""
@@ -34,22 +34,22 @@ accounting:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.1.39"
+    tag: "2026.2.15"
 
 foundation:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.1.39"
+    tag: "2026.2.15"
 
 orchestrator:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.1.39"
+    tag: "2026.2.15"
 
 frontend:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/webclient
     pullPolicy: IfNotPresent
-    tag: "2026.1.41"
+    tag: "2026.2.13"

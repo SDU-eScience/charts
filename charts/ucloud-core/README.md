@@ -8,7 +8,7 @@ The following is a minimal example of a Helm values file that can be used for in
 ```yaml
 storage:
   size: 1Gi
-  storageClass: example
+  className: example
 ingress:
   enabled: true
   host: example.com
@@ -43,7 +43,7 @@ Configuration for the shared storage ressource.
 | Name                                      | Description                                                              | Value                                |
 | ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | storage.size                              | Persistent volume size                                                   | `1Gi`                                |
-| storage.storageClass                      | Persistent volume storage class                                          | `""`                                 |
+| storage.className                         | Persistent volume storage class name                                     | `""`                                 |
 | storage.accessModes                       | Persistent volume access modes                                           | `["ReadWriteMany"]`                  |
 | storage.existingClaim                     | Use an existing PVC which must be created beforehand                     | `""`                                 |
 | storage.subPath                           | The subdirectory of the volume to mount in the containers                | `""`                                 |
