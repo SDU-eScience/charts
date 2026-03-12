@@ -70,6 +70,17 @@ entries:
     version: 0.60.5
   ucloud-core:
   - apiVersion: v2
+    appVersion: 2026.2.15
+    created: "2026-03-12T14:10:24.93830224Z"
+    description: UCloud is an interactive digital research environment
+    digest: dddbb5481b6c4d441c222aa66c2ce0ba902bb5e749fb4b94634a0af4c06abc1f
+    home: https://github.com/SDU-eScience/UCloud
+    name: ucloud-core
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/ucloud-core-1.0.3/ucloud-core-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     appVersion: 2026.1.41
     created: "2026-02-09T10:57:35.257839579Z"
     description: UCloud is an interactive digital research environment
@@ -136,4 +147,4 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/ucloud-im-1.0.0/ucloud-im-1.0.0.tgz
     version: 1.0.0
-generated: "2026-03-12T08:22:59.54006048Z"
+generated: "2026-03-12T14:10:24.938327467Z"
