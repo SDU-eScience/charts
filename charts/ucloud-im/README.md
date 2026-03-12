@@ -5,8 +5,8 @@ Helm chart for installing UCloud/IM in Kubernetes.
 ## Prerequisites
 There are some prerequisites that must be manually configured before using the Helm chart to install UCloud/IM.
 
-* Two namespaces must exist, one for running the UCloud/IM software and one for running all the user jobs. In the following example we call these two namespaces `ucloud-im` and `ucloud-apps` respectively.
-* Both namespaces must have a `PersistentVolumeClaim` with the same name, pointing to the same shared storage. This shared storage is used for storing user data. The volume must be configured with `accessMode` set to `ReadWriteMany`.
+* Three namespaces must exist, one for running the UCloud/IM software, one for running all the user jobs, and one for running background tasks (such as file transfers). In the following example we call these two namespaces `ucloud-im`, `ucloud-apps`, and `ucloud-tasks` respectively.
+* All namespaces must have a `PersistentVolumeClaim` with the same name, pointing to the same shared storage. This shared storage is used for storing user data. The volume must be configured with `accessMode` set to `ReadWriteMany`.
 
 The following is an example of Kubernetes manifests that create the two namespaces and the required volumes. Here we assume that there is a shared filesystem mounted on all nodes and we can simply access this via the `HostPath` option. Adjust this based on the local storage system and installed CSI provisioners.
 
@@ -80,6 +80,40 @@ spec:
       storage: 1Ti
 ```
 
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ucloud-tasks
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ucloud-tasks-user-data
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Ti
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: /example/path
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ucloud-user-data
+  namespace: ucloud-tasks
+spec:
+  volumeName: ucloud-tasks-user-data
+  storageClassName: manual
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Ti
+```
 
 ## Configuration
 The following is a minimal example of a Helm values file that can be used for installing UCloud/IM. For a full list of all configuration options, see the next section.
@@ -107,13 +141,13 @@ apps:
 
 Some general comments about the configuration.
 
-* UCloud/IM requires a service account with permissions to manage user jobs in the `ucloud-apps` namespace. This service account, including the required RBAC rules, is automatically created when `serviceAccount.create` is enabled.
+* UCloud/IM requires a service account with permissions to manage user jobs in the `ucloud-apps` and `ucloud-tasks` namespace. This service account, including the required RBAC rules, is automatically created when `serviceAccount.create` is enabled.
 
 * UCloud/IM requires some storage for the provider configuration. A volume can automatically be provisioned, as in the example above, or you can provide an `existingClaim` to use an existing volume. Be aware that the volume used for the configuration files _cannot_ be the same volume used for the user data.
 
 * UCloud/IM must be accessible via https on a public address. An ingress ressource can automatically be provisioned.
 
-* Finally some configuration is needed for the user jobs. In the `apps` section we specify the namespace for running user jobs and the name of an existing volume for storing user data.
+* Finally some configuration is needed for the user jobs and tasks. In the `apps` and `tasks` sections we specify the namespace for running user jobs and the name of an existing volume for storing user data.
 
 Use the following Helm commands for installing the software.
 
@@ -179,3 +213,6 @@ Reference for all available Helm values.
 | apps.netpol.egress.allowed                | Allow egress traffic from the apps namespace                             | `true`                               |
 | apps.netpol.egress.blockPrivate           | Block egress traffic to private IPv4 subnets                             | `true`                               |
 | apps.netpol.egress.toRules                | Custom rules for allowing egress traffic                                 | `[]`                                 |
+| tasks.namespace                           | Namespace for running user jobs                                          | `ucloud-tasks`                       |
+| tasks.storage.existingClaim               | Use an existing PVC which must be created beforehand                     | `""`                                 |
+| tasks.storage.subPath                     | The subdirectory of the volume to mount in the containers                | `""`                                 |

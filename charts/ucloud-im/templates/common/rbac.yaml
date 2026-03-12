@@ -31,7 +31,7 @@ subjects:
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ $name }}-role
+  name: {{ $name }}-apps
   namespace: {{ .Values.apps.namespace }}
 rules:
 - apiGroups: [""]
@@ -47,12 +47,36 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ $name }}-role-binding
+  name: {{ $name }}-apps
   namespace: {{ .Values.apps.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ $name }}-role
+  name: {{ $name }}-apps
+subjects:
+- kind: ServiceAccount
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ $name }}-tasks
+  namespace: {{ .Values.tasks.namespace }}
+rules:
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["*"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ $name }}-tasks
+  namespace: {{ .Values.tasks.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $name }}-tasks
 subjects:
 - kind: ServiceAccount
   name: {{ $name }}

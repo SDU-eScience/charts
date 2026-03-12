@@ -75,3 +75,9 @@ apps:
       allowed: true
       blockPrivate: true
       toRules: []
+
+tasks:
+  namespace: ucloud-tasks
+  storage:
+    existingClaim: ""
+    subPath: ""

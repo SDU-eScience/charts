@@ -64,6 +64,9 @@ spec:
         imagePullPolicy: {{ .Values.provider.image.pullPolicy }}
         command:
           {{- toYaml .Values.provider.command | nindent 8 }}
+        env:
+        - name: UCLOUD_IM_SERVICE_NAME
+          value: {{ include "ucloud.provider.deploymentName" . }}.{{ .Release.Namespace }}.svc
         ports:
         - containerPort: 7867
           name: metrics
