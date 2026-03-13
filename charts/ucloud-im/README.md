@@ -131,10 +131,15 @@ ingress:
 provider:
   storage:
     size: 1Gi
-    storageClass: example
+    className: example
 
 apps:
   namespace: ucloud-apps
+  storage:
+    existingClaim: ucloud-user-data
+
+tasks:
+  namespace: ucloud-tasks
   storage:
     existingClaim: ucloud-user-data
 ```
@@ -184,7 +189,7 @@ Reference for all available Helm values.
 | provider.strategyType                     | Strategy type for replacing provider pods                                | `""`                                 |
 | provider.command                          | Overrride the command for the provider container                         | `["/usr/bin/ucloud"]`                |
 | provider.storage.size                     | Persistent Volume size                                                   | `1Gi`                                |
-| provider.storage.storageClass             | Persistent Volume storage class                                          | `""`                                 |
+| provider.storage.className                | Persistent Volume storage class name                                     | `""`                                 |
 | provider.storage.accessModes              | Persistent Volume access modes                                           | `["ReadWriteMany"]`                  |
 | provider.storage.existingClaim            | Use an existing PVC which must be created beforehand                     | `""`                                 |
 | provider.storage.subPath                  | The subdirectory of the volume to mount in the containers                | `""`                                 |

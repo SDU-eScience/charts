@@ -37,7 +37,7 @@ provider:
     size: 1Gi
     selector: {}
     dataSource: {}
-    storageClass: ""
+    className: ""
     accessModes:
     - ReadWriteMany
     existingClaim: ""

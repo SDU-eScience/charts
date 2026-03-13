@@ -40,7 +40,7 @@ rules:
 - apiGroups: ["networking.k8s.io"]
   resources: ["networkpolicies"]
   verbs: ["*"]
-- apiGroups: ["kubevirt.io", "cdi.kubevirt.io"]
+- apiGroups: ["kubevirt.io"]
   resources: ["*"]
   verbs: ["*"]
 ---

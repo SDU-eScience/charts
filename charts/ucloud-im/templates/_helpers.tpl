@@ -84,7 +84,7 @@ app.kubernetes.io/instance: {{ include "ucloud.envoy.deploymentName" . }}
 Component: Provider
 */}}
 {{- define "ucloud.provider.deploymentName" -}}
-{{- printf "%s-provider" (include "ucloud.fullname" .) }}
+{{- printf "%s-im" (include "ucloud.fullname" .) }}
 {{- end }}
 
 {{- define "ucloud.provider.labels" -}}
