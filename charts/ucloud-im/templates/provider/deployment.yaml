@@ -44,7 +44,7 @@ spec:
           claimName: {{ include "ucloud.provider.claimName" . }}
       - name: storage
         persistentVolumeClaim:
-          claimName: {{ .Values.apps.storage.existingClaim }}
+          claimName: ucloud-user-data
       initContainers:
       - name: init
         image: alpine
@@ -88,6 +88,3 @@ spec:
           {{- end }}
         - name: storage
           mountPath: /mnt/storage
-          {{- if .Values.apps.storage.subPath }}
-          subPath: {{ .Values.apps.storage.subPath }}
-          {{- end }}

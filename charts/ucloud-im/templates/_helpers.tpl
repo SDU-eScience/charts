@@ -37,19 +37,29 @@ Create chart name and version as used by the chart label.
 Create the name of the service account
 */}}
 {{- define "ucloud.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "ucloud.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
+{{- include "ucloud.fullname" . }}
 {{- end }}
 
 
 {{/*
-Create the name of the volume claim
+Create the name of the provider volume claim
 */}}
 {{- define "ucloud.provider.claimName" -}}
 {{- default (include "ucloud.provider.deploymentName" .) .Values.provider.storage.existingClaim }}
+{{- end }}
+
+
+{{/*
+Create the name of all namespaces
+*/}}
+{{- define "ucloud.namespace.release" -}}
+{{- .Release.Namespace }}
+{{- end }}
+{{- define "ucloud.namespace.tasks" -}}
+{{- .Values.tasks.namespace }}
+{{- end }}
+{{- define "ucloud.namespace.apps" -}}
+{{- .Values.apps.namespace }}
 {{- end }}
 
 

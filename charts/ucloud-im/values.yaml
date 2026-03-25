@@ -3,11 +3,6 @@ fullnameOverride: ""
 
 # health / liveness probe
 
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
 netpol:
   enabled: true
   ingress:
@@ -64,11 +59,18 @@ envoy:
     annotations: {}
     type: ClusterIP
 
+storage:
+  capacity: 1Ti
+  className: ""
+  volume:
+    mountOptions: ""
+    hostPath: {}
+    local: {}
+    csi: {}
+    nfs: {}
+
 apps:
   namespace: ucloud-apps
-  storage:
-    existingClaim: ""
-    subPath: ""
   netpol:
     enabled: true
     egress:
@@ -78,6 +80,3 @@ apps:
 
 tasks:
   namespace: ucloud-tasks
-  storage:
-    existingClaim: ""
-    subPath: ""

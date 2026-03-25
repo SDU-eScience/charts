@@ -1,0 +1,50 @@
+{{- $storage := .Values.storage }}
+{{- $namespace := include "ucloud.namespace.release" . }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $namespace }}-user-data
+spec:
+  storageClassName: {{ $storage.className }}
+  capacity:
+    storage: {{ $storage.capacity }}
+  accessModes:
+  - ReadWriteMany
+  {{- if $storage.volume.mountOptions }}
+  mountOptions: {{ $storage.volume.mountOptions }}
+  {{- end }}
+  {{- with $storage.volume.hostPath }}
+  hostPath:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $storage.volume.local }}
+  local:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $storage.volume.csi }}
+  csi:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $storage.volume.nfs }}
+  nfs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ucloud-user-data
+  namespace: {{ $namespace }}
+spec:
+  volumeName: {{ $namespace }}-user-data
+  storageClassName: {{ $storage.className | quote }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ $storage.capacity }}
