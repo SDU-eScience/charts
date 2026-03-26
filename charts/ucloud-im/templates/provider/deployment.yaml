@@ -44,7 +44,7 @@ spec:
           claimName: {{ include "ucloud.provider.claimName" . }}
       - name: storage
         persistentVolumeClaim:
-          claimName: ucloud-user-data
+          claimName: {{ include "ucloud.storage.claimName" . }}
       initContainers:
       - name: init
         image: alpine

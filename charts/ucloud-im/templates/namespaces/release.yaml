@@ -1,11 +1,6 @@
 {{- $storage := .Values.storage }}
 {{- $namespace := include "ucloud.namespace.release" . }}
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ $namespace }}
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: {{ $namespace }}-user-data
@@ -38,7 +33,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ucloud-user-data
+  name: {{ include "ucloud.storage.claimName" . }}
   namespace: {{ $namespace }}
 spec:
   volumeName: {{ $namespace }}-user-data

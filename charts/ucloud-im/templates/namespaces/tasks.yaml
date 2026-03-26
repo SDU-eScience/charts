@@ -38,7 +38,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ucloud-user-data
+  name: {{ include "ucloud.storage.claimName" . }}
   namespace: {{ $namespace }}
 spec:
   volumeName: {{ $namespace }}-user-data

@@ -10,10 +10,10 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.release" . }}
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Values.tasks.namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.tasks" . }}
   policyTypes:
   - Ingress
 ---
@@ -21,14 +21,14 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ include "ucloud.fullname" . }}-internal
-  namespace: {{ .Values.tasks.namespace }}
+  namespace: {{ include "ucloud.namespace.tasks" . }}
 spec:
   podSelector: {}
   ingress:
   - from:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.release" . }}
   policyTypes:
   - Ingress
 {{- if $ingress.http.allowed }}
@@ -84,23 +84,23 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Values.apps.namespace }}-global-ingress
-  namespace: {{ .Values.apps.namespace }}
+  name: {{ include "ucloud.namespace.apps" . }}-global-ingress
+  namespace: {{ include "ucloud.namespace.apps" . }}
 spec:
   podSelector: {}
   ingress:
   - from:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Release.Namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.release" . }}
   policyTypes:
   - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Values.apps.namespace }}-global-egress
-  namespace: {{ .Values.apps.namespace }}
+  name: {{ include "ucloud.namespace.apps" . }}-global-egress
+  namespace: {{ include "ucloud.namespace.apps" . }}
 spec:
   podSelector:
     matchExpressions:
@@ -111,7 +111,7 @@ spec:
   - to:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Values.apps.namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.apps" . }}
     - namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: kube-system
@@ -137,7 +137,7 @@ spec:
   - to:
     - namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: {{ .Values.apps.namespace }}
+          kubernetes.io/metadata.name: {{ include "ucloud.namespace.apps" . }}
   {{- end }}
   policyTypes:
   - Egress

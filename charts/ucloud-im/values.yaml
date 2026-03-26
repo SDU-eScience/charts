@@ -29,7 +29,7 @@ provider:
   command:
   - /usr/bin/ucloud
   storage:
-    size: 1Gi
+    capacity: 1Gi
     selector: {}
     dataSource: {}
     className: ""

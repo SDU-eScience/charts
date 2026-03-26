@@ -51,7 +51,7 @@ ingress:
 # provider deployment
 provider:
   storage:
-    size: 1Gi
+    capacity: 1Gi
     className: example
 
 # shared storage for user data
@@ -79,7 +79,7 @@ Use the following Helm commands for installing the software.
 ```console
 $ helm repo add sdu-escience https://sdu-escience.github.io/charts
 $ helm repo update
-$ helm install myrelease sdu-escience/ucloud-im -n ucloud-im -f values.yaml
+$ helm install myrelease sdu-escience/ucloud-im -n ucloud-im --create-namespace -f values.yaml
 ```
 
 
@@ -123,7 +123,7 @@ Configuration of the the UCloud/IM deployment.
 | provider.affinity                         | Affinity for provider pods                                               | `{}`                                 |
 | provider.strategyType                     | Strategy type for replacing provider pods                                | `""`                                 |
 | provider.command                          | Overrride the command for the provider container                         | `["/usr/bin/ucloud"]`                |
-| provider.storage.size                     | Persistent Volume size                                                   | `1Gi`                                |
+| provider.storage.capacity                 | Persistent Volume capacity                                               | `1Gi`                                |
 | provider.storage.className                | Persistent Volume storage class name                                     | `""`                                 |
 | provider.storage.accessModes              | Persistent Volume access modes                                           | `["ReadWriteMany"]`                  |
 | provider.storage.existingClaim            | Use an existing PVC which must be created beforehand                     | `""`                                 |
