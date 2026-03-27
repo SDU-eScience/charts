@@ -34,14 +34,6 @@ Create chart name and version as used by the chart label.
 
 
 {{/*
-Create the name of the service account
-*/}}
-{{- define "ucloud.serviceAccountName" -}}
-{{- include "ucloud.fullname" . }}
-{{- end }}
-
-
-{{/*
 Create the name of volume claims
 */}}
 {{- define "ucloud.provider.claimName" -}}
@@ -49,6 +41,20 @@ Create the name of volume claims
 {{- end }}
 {{- define "ucloud.storage.claimName" -}}
 {{- "ucloud-user-data" }}
+{{- end }}
+
+
+{{/*
+Create names related to webhook
+*/}}
+{{- define "ucloud.webhook.certificateName" -}}
+{{- printf "%s-webhook" (include "ucloud.fullname" .) }}
+{{- end }}
+{{- define "ucloud.webhook.issuerName" -}}
+{{- printf "%s-selfsigned" (include "ucloud.fullname" .) }}
+{{- end }}
+{{- define "ucloud.webhook.secretName" -}}
+{{- printf "%s-webhook-certs" (include "ucloud.fullname" .) }}
 {{- end }}
 
 

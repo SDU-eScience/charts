@@ -37,7 +37,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 6 }}
       {{- end }}
-      serviceAccountName: {{ include "ucloud.serviceAccountName" . }}
+      serviceAccountName: {{ include "ucloud.fullname" . }}
       volumes:
       - name: config
         persistentVolumeClaim:
@@ -45,6 +45,11 @@ spec:
       - name: storage
         persistentVolumeClaim:
           claimName: {{ include "ucloud.storage.claimName" . }}
+      {{- if .Values.features.kubevirt }}
+      - name: webhook-tls
+        secret:
+          secretName: {{ include "ucloud.webhook.secretName" . }}
+      {{- end }}
       initContainers:
       - name: init
         image: alpine
@@ -88,3 +93,7 @@ spec:
           {{- end }}
         - name: storage
           mountPath: /mnt/storage
+        {{- if .Values.features.kubevirt }}
+        - name: webhook-tls
+          mountPath: /etc/ucloud/webhook
+        {{- end }}

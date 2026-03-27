@@ -1,0 +1,53 @@
+{{- if .Values.features.kubevirt }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "ucloud.fullname" . }}-vmi-mutator
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "ucloud.namespace.release" . }}/{{ include "ucloud.webhook.certificateName" . }}
+webhooks:
+- name: vmi-mutator.ucloud.dk
+  matchPolicy: Equivalent
+  timeoutSeconds: 5
+  sideEffects: None
+  admissionReviewVersions: ["v1"]
+  clientConfig:
+    service:
+      name: {{ include "ucloud.provider.deploymentName" . }}
+      namespace: {{ include "ucloud.namespace.release" . }}
+      path: /
+      port: 59231
+  namespaceSelector:
+    matchLabels:
+      kubernetes.io/metadata.name: {{ include "ucloud.namespace.apps" . }}
+  objectSelector:
+    matchLabels:
+      kubevirt.io: virt-launcher
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    operations: ["CREATE"]
+    resources: ["pods"]
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "ucloud.webhook.certificateName" . }}
+spec:
+  secretName: {{ include "ucloud.webhook.secretName" . }}
+  privateKey:
+    rotationPolicy: Always
+  commonName: {{ include "ucloud.provider.deploymentName" . }}
+  dnsNames:
+  - {{ include "ucloud.provider.deploymentName" . }}.{{ include "ucloud.namespace.release" . }}.svc
+  - {{ include "ucloud.provider.deploymentName" . }}.{{ include "ucloud.namespace.release" . }}.svc.cluster.local
+  issuerRef:
+    name: {{ include "ucloud.webhook.issuerName" . }}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "ucloud.webhook.issuerName" . }}
+spec:
+  selfSigned: {}
+{{- end }}

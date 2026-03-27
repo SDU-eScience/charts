@@ -80,3 +80,6 @@ apps:
 
 tasks:
   namespace: ucloud-tasks
+
+features:
+  kubevirt: false

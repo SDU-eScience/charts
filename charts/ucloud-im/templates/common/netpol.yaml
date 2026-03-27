@@ -77,6 +77,22 @@ spec:
   policyTypes:
   - Ingress
 {{- end }}
+{{- if .Values.features.kubevirt }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "ucloud.provider.deploymentName" . }}-webhook
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "ucloud.provider.selectorLabels" . | nindent 6 }}
+  ingress:
+  - ports:
+    - port: 59231
+      protocol: TCP
+  policyTypes:
+  - Ingress
+{{- end }}
 {{- end }}
 {{- if .Values.apps.netpol.enabled }}
 {{- $egress := .Values.apps.netpol.egress }}
