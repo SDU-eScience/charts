@@ -76,8 +76,11 @@ rules:
 - apiGroups: ["batch"]
   resources: ["jobs"]
   verbs: ["*"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["*"]
 - apiGroups: [""]
-  resources: ["deployments", "services"]
+  resources: ["services"]
   verbs: ["*"]
 ---
 kind: RoleBinding
