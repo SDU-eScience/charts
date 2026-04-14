@@ -52,6 +52,8 @@ spec:
           {{- if .Values.storage.subPath }}
           subPath: {{ .Values.storage.subPath }}
           {{- end }}
+        securityContext:
+          allowPrivilegeEscalation: false
       containers:
       - name: ucloud
         image: {{ $values.image.repository }}:{{ default .Chart.AppVersion $values.image.tag }}
@@ -72,6 +74,8 @@ spec:
           {{- if .Values.storage.subPath }}
           subPath: {{ .Values.storage.subPath }}
           {{- end }}
+        securityContext:
+          allowPrivilegeEscalation: false
 ---
 kind: Service
 apiVersion: v1
