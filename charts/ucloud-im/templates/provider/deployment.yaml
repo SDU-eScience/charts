@@ -63,6 +63,8 @@ spec:
           {{- if .Values.provider.storage.subPath }}
           subPath: {{ .Values.provider.storage.subPath }}
           {{- end }}
+        securityContext:
+          allowPrivilegeEscalation: false
       containers:
       - name: ucloud
         image: {{ .Values.provider.image.repository }}:{{ .Values.provider.image.tag | default .Chart.AppVersion }}
@@ -97,3 +99,5 @@ spec:
         - name: webhook-tls
           mountPath: /etc/ucloud/webhook
         {{- end }}
+        securityContext:
+          allowPrivilegeEscalation: false
