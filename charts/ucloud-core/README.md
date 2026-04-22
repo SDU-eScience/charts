@@ -89,7 +89,7 @@ Configuration for the `foundation` deployment.
 | foundation.affinity                       | Pod affinity                                                             | `{}`                                 |
 | foundation.image.repository               | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
 | foundation.image.pullPolicy               | Image pull policy                                                        | `IfNotPresent`                       |
-| foundation.image.tag                      | Image tag                                                                | `2026.1.39`                          |
+| foundation.image.tag                      | Image tag                                                                | `2026.2.73`                          |
 | foundation.service.type                   | Service type                                                             | `ClusterIP`                          |
 | foundation.service.annotations            | Service annotations                                                      | `{}`                                 |
 
@@ -106,7 +106,7 @@ Configuration for the `accounting` deployment.
 | accounting.affinity                       | Pod affinity                                                             | `{}`                                 |
 | accounting.image.repository               | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
 | accounting.image.pullPolicy               | Image pull policy                                                        | `IfNotPresent`                       |
-| accounting.image.tag                      | Image tag                                                                | `2026.1.39`                          |
+| accounting.image.tag                      | Image tag                                                                | `2026.2.73`                          |
 | accounting.service.type                   | Service type                                                             | `ClusterIP`                          |
 | accounting.service.annotations            | Service annotations                                                      | `{}`                                 |
 
@@ -123,7 +123,7 @@ Configuration for the `orchestrator` deployment.
 | orchestrator.affinity                     | Pod affinity                                                             | `{}`                                 |
 | orchestrator.image.repository             | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/core2`     |
 | orchestrator.image.pullPolicy             | Image pull policy                                                        | `IfNotPresent`                       |
-| orchestrator.image.tag                    | Image tag                                                                | `2026.1.39`                          |
+| orchestrator.image.tag                    | Image tag                                                                | `2026.2.73`                          |
 | orchestrator.service.type                 | Service type                                                             | `ClusterIP`                          |
 | orchestrator.service.annotations          | Service annotations                                                      | `{}`                                 |
 
@@ -140,6 +140,6 @@ Configuration for the `frontend` deployment.
 | frontend.affinity                         | Pod affinity                                                             | `{}`                                 |
 | frontend.image.repository                 | Image repository                                                         | `dreg.cloud.sdu.dk/ucloud/webclient` |
 | frontend.image.pullPolicy                 | Image pull policy                                                        | `IfNotPresent`                       |
-| frontend.image.tag                        | Image tag                                                                | `2026.1.41`                          |
+| frontend.image.tag                        | Image tag                                                                | `2026.2.27`                          |
 | frontend.service.type                     | Service type                                                             | `ClusterIP`                          |
 | frontend.service.annotations              | Service annotations                                                      | `{}`                                 |

@@ -10,6 +10,7 @@ ingressPrefixList:
   - /api/sla
   - /api/support
   - /api/tasks
+  - /api/branding
   accounting:
   - /api/accounting
   - /api/gifts
