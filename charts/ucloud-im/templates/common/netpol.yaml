@@ -78,6 +78,7 @@ spec:
   - Ingress
 {{- end }}
 {{- if .Values.features.kubevirt }}
+---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

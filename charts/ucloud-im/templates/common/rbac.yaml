@@ -44,10 +44,10 @@ rules:
 - apiGroups: ["networking.k8s.io"]
   resources: ["networkpolicies"]
   verbs: ["*"]
+{{- if .Values.features.kubevirt }}
 - apiGroups: ["kubevirt.io"]
   resources: ["*"]
   verbs: ["*"]
-{{- if .Values.features.kubevirt }}
 - apiGroups: [""]
   resources: ["persistentvolumeclaims"]
   verbs: ["*"]
