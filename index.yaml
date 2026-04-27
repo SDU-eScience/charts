@@ -137,6 +137,17 @@ entries:
     version: 1.0.0
   ucloud-im:
   - apiVersion: v2
+    appVersion: 2026.2.107
+    created: "2026-04-27T14:45:49.354859418Z"
+    description: UCloud is an interactive digital research environment
+    digest: eb63774b4d019cdea32069350613d3ab7ac1a32451f2a1085e8741e307b04bb5
+    home: https://github.com/SDU-eScience/UCloud
+    name: ucloud-im
+    type: application
+    urls:
+    - https://github.com/SDU-eScience/charts/releases/download/ucloud-im-2.0.1/ucloud-im-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v2
     appVersion: 2026.2.73
     created: "2026-04-22T10:04:07.691491734Z"
     description: UCloud is an interactive digital research environment
@@ -191,4 +202,4 @@ entries:
     urls:
     - https://github.com/SDU-eScience/charts/releases/download/ucloud-im-1.0.0/ucloud-im-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-22T10:04:07.691530918Z"
+generated: "2026-04-27T14:45:49.354906323Z"
