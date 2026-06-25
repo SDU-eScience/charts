@@ -81,5 +81,9 @@ apps:
 tasks:
   namespace: ucloud-tasks
 
-features:
-  kubevirt: false
+kubevirt:
+  enabled: false
+
+inference:
+  enabled: false
+  namespace: ucloud-inference

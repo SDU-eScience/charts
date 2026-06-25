@@ -187,3 +187,30 @@ Configuration of the namespace used for running background tasks.
 | Name                                      | Description                                                              | Value                                |
 | ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | tasks.namespace                           | Namespace for running background tasks                                   | `ucloud-tasks`                       |
+
+
+### Kubevirt
+Configuration of the KubeVirt feature. KubeVirt must be manually installed and configured.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| kubevirt.enabled                          | Enable support for running Virtual Machines using KubeVirt               | `false`                              |
+
+The following requirements must be satisfied to enable this feature.
+
+* [KubeVirt](https://kubevirt.io/) must be installed and configured.
+* [cert-manager](https://cert-manager.io/) must be installed and the CA Injector must be enabled.
+
+
+### Inference
+Configuration of the inference feature.
+
+| Name                                      | Description                                                              | Value                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
+| inference.enabled                         | Enable support for LLM inference using Nvidia Dynamo                     | `false`                              |
+| inference.namespace                       | Namespace where the LLM models are deployed (must already exist)         | `ucloud-inference`                   |
+
+The following requirements must be satisfied to enable this feature.
+
+* [Nvidia Dynamo](https://developer.nvidia.com/dynamo) must be installed and configured.
+* UCloud will automatically detect LLM models running in the configured namespace, but they must be managed manually.

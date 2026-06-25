@@ -70,6 +70,9 @@ Create the name of all namespaces
 {{- define "ucloud.namespace.apps" -}}
 {{- .Values.apps.namespace }}
 {{- end }}
+{{- define "ucloud.namespace.inference" -}}
+{{- .Values.inference.namespace }}
+{{- end }}
 
 
 {{/*

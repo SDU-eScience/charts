@@ -13,7 +13,7 @@ rules:
 - apiGroups: [""]
   resources: ["nodes"]
   verbs: ["get", "watch", "list"]
-{{- if .Values.features.kubevirt }}
+{{- if .Values.kubevirt.enabled }}
 - apiGroups: [""]
   resources: ["persistentvolumes"]
   verbs: ["*"]
@@ -44,7 +44,7 @@ rules:
 - apiGroups: ["networking.k8s.io"]
   resources: ["networkpolicies"]
   verbs: ["*"]
-{{- if .Values.features.kubevirt }}
+{{- if .Values.kubevirt.enabled }}
 - apiGroups: ["kubevirt.io"]
   resources: ["*"]
   verbs: ["*"]
@@ -99,3 +99,28 @@ subjects:
 - kind: ServiceAccount
   name: {{ $name }}
   namespace: {{ include "ucloud.namespace.release" . }}
+{{- if .Values.inference.enabled }}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ $name }}-inference
+  namespace: {{ include "ucloud.namespace.inference" . }}
+rules:
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["*"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ $name }}-inference
+  namespace: {{ include "ucloud.namespace.inference" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $name }}-inference
+subjects:
+- kind: ServiceAccount
+  name: {{ $name }}
+{{- end }}
