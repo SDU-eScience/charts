@@ -87,3 +87,4 @@ kubevirt:
 inference:
   enabled: false
   namespace: ucloud-inference
+  create_namespace: true

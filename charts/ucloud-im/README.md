@@ -190,7 +190,7 @@ Configuration of the namespace used for running background tasks.
 
 
 ### Kubevirt
-Configuration of the KubeVirt feature. KubeVirt must be manually installed and configured.
+Configuration of the KubeVirt feature.
 
 | Name                                      | Description                                                              | Value                                |
 | ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
@@ -208,9 +208,10 @@ Configuration of the inference feature.
 | Name                                      | Description                                                              | Value                                |
 | ----------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------ |
 | inference.enabled                         | Enable support for LLM inference using Nvidia Dynamo                     | `false`                              |
-| inference.namespace                       | Namespace where the LLM models are deployed (must already exist)         | `ucloud-inference`                   |
+| inference.namespace                       | Namespace where the LLMs are deployed                                    | `ucloud-inference`                   |
+| inference.create_namespace                | Create the namespace as part of the Helm deployment                      | `true`                               |
 
 The following requirements must be satisfied to enable this feature.
 
 * [Nvidia Dynamo](https://developer.nvidia.com/dynamo) must be installed and configured.
-* UCloud will automatically detect LLM models running in the configured namespace, but they must be managed manually.
+* UCloud will automatically detect models running in the configured namespace, but they must manually managed.
