@@ -214,4 +214,4 @@ Configuration of the inference feature.
 The following requirements must be satisfied to enable this feature.
 
 * [Nvidia Dynamo](https://developer.nvidia.com/dynamo) must be installed and configured.
-* UCloud will automatically detect models running in the configured namespace, but they must manually managed.
+* UCloud will automatically detect models running in the configured namespace, but they must be manually managed.
