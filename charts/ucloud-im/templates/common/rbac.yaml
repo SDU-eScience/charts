@@ -39,7 +39,7 @@ metadata:
   namespace: {{ include "ucloud.namespace.apps" . }}
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/log", "pods/exec", "services", "events"]
+  resources: ["pods", "pods/log", "pods/exec", "services", "events", "secrets"]
   verbs: ["*"]
 - apiGroups: ["networking.k8s.io"]
   resources: ["networkpolicies"]
