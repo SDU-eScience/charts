@@ -28,7 +28,7 @@ storage:
         name: csi-cephfs-secret
         namespace: default
       volumeAttributes:
-        clusterID:  9f0a7322-9dfc-43d0-892c-d69eb872d059
+        clusterID: 9f0a7322-9dfc-43d0-892c-d69eb872d059
         fsName: cephfs
         staticVolume: "true"
         rootPath: /volumes/mygroup/example

@@ -42,7 +42,7 @@ metadata:
   namespace: {{ $namespace }}
 spec:
   volumeName: {{ $namespace }}-user-data
-  storageClassName: {{ $storage.className | quote }}
+  storageClassName: {{ $storage.className }}
   accessModes:
   - ReadWriteMany
   resources:

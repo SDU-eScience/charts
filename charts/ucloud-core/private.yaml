@@ -30,6 +30,7 @@ ingressPrefixList:
   - /api/ssh
   - /api/tasks/pauseOrCancel
   - /api/private-networks
+  - /api/containerRepositories
   frontend:
   - /api/auth-callback
   - /api/auth-callback-csrf
