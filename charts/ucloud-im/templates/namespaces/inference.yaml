@@ -1,5 +1,5 @@
 {{- $namespace := include "ucloud.namespace.inference" . }}
-{{- if .Values.inference.create_namespace }}
+{{- if and .Values.inference.enabled .Values.inference.create_namespace }}
 apiVersion: v1
 kind: Namespace
 metadata:
