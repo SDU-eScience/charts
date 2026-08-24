@@ -1,8 +1,8 @@
 apiVersion: v2
 name: ucloud-im
 type: application
-version: 2.0.4
+version: 2.0.5
 
 description: "UCloud is an interactive digital research environment"
-appVersion: "2026.4.5"
+appVersion: "2026.4.27"
 home: "https://github.com/SDU-eScience/UCloud"

@@ -76,14 +76,14 @@ metadata:
   name: {{ $name }}-tasks
   namespace: {{ include "ucloud.namespace.tasks" . }}
 rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "services", "secrets"]
+  verbs: ["*"]
 - apiGroups: ["batch"]
   resources: ["jobs"]
   verbs: ["*"]
 - apiGroups: ["apps"]
   resources: ["deployments"]
-  verbs: ["*"]
-- apiGroups: [""]
-  resources: ["services"]
   verbs: ["*"]
 ---
 kind: RoleBinding
@@ -123,4 +123,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ $name }}
+  namespace: {{ include "ucloud.namespace.release" . }}
 {{- end }}
