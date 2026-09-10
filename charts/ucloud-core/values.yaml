@@ -34,22 +34,22 @@ accounting:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.4.5"
+    tag: "2026.5.31"
 
 foundation:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.4.5"
+    tag: "2026.5.31"
 
 orchestrator:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/core2
     pullPolicy: IfNotPresent
-    tag: "2026.4.5"
+    tag: "2026.5.31"
 
 frontend:
   image:
     repository: dreg.cloud.sdu.dk/ucloud/webclient
     pullPolicy: IfNotPresent
-    tag: "2026.4.6"
+    tag: "2026.5.32"

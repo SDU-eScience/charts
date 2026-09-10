@@ -11,6 +11,7 @@ ingressPrefixList:
   - /api/support
   - /api/tasks
   - /api/branding
+  - /api/features
   accounting:
   - /api/accounting
   - /api/gifts
