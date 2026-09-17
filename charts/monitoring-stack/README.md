@@ -24,7 +24,7 @@ Reference for all available Helm values.
 | prometheus.nodeSelector                   | Default `nodeSelector` for the pods                        | `{}`                                   |
 | prometheus.image.repository               | Image repository                                           | `quay.io/prometheus/prometheus`        |
 | prometheus.image.pullPolicy               | Image pull policy                                          | `IfNotPresent`                         |
-| prometheus.image.tag                      | Image tag                                                  | `v3.9.1`                               |
+| prometheus.image.tag                      | Image tag                                                  | `v3.14.0`                              |
 | prometheus.service.type                   | Service type                                               | `ClusterIP`                            |
 | prometheus.service.annotations            | Service annotations                                        | `{}`                                   |
 | prometheus.instances                      | List of instances to deploy                                | `[]`                                   |
@@ -40,7 +40,7 @@ Reference for all available Helm values.
 | alertmanager.nodeSelector                 | Default `nodeSelector` for the pods                        | `{}`                                   |
 | alertmanager.image.repository             | Image repository                                           | `quay.io/prometheus/alertmanager`      |
 | alertmanager.image.pullPolicy             | Image pull policy                                          | `IfNotPresent`                         |
-| alertmanager.image.tag                    | Image tag                                                  | `v0.30.1`                              |
+| alertmanager.image.tag                    | Image tag                                                  | `v0.34.1`                              |
 | alertmanager.service.type                 | Service type                                               | `ClusterIP`                            |
 | alertmanager.service.annotations          | Service annotations                                        | `{}`                                   |
 | alertmanager.instances                    | List of instances to deploy                                | `[]`                                   |
@@ -58,10 +58,10 @@ Reference for all available Helm values.
 | idrac_exporter.nodeSelector               | Value of `nodeSelector` for the pods                       | `{}`                                   |
 | idrac_exporter.image.repository           | Image repository                                           | `ghcr.io/mrlhansen/idrac_exporter`     |
 | idrac_exporter.image.pullPolicy           | Image pull policy                                          | `IfNotPresent`                         |
-| idrac_exporter.image.tag                  | Image tag                                                  | `2.3.2`                                |
+| idrac_exporter.image.tag                  | Image tag                                                  | `2.6.3`                                |
 | idrac_exporter.service.type               | Service type                                               | `ClusterIP`                            |
 | idrac_exporter.service.annotations        | Service annotations                                        | `{}`                                   |
-| blackbox_exporter.enabled                 | Enable Blakbox exporter deployment                         | `false`                                |
+| blackbox_exporter.enabled                 | Enable Blackbox exporter deployment                        | `false`                                |
 | blackbox_exporter.name                    | Deployment name                                            | `idrac-exporter`                       |
 | blackbox_exporter.replicas                | Number of replicas                                         | `1`                                    |
 | blackbox_exporter.args                    | Value of `args` for the pods                               | `[]`                                   |
@@ -73,3 +73,15 @@ Reference for all available Helm values.
 | blackbox_exporter.image.tag               | Image tag                                                  | `v0.28.0`                              |
 | blackbox_exporter.service.type            | Service type                                               | `ClusterIP`                            |
 | blackbox_exporter.service.annotations     | Service annotations                                        | `{}`                                   |
+| snmp_exporter.enabled                     | Enable SNMP exporter deployment                            | `false`                                |
+| snmp_exporter.name                        | Deployment name                                            | `snmp-exporter`                        |
+| snmp_exporter.replicas                    | Number of replicas                                         | `1`                                    |
+| snmp_exporter.args                        | Value of `args` for the pods                               | `[]`                                   |
+| snmp_exporter.volumes                     | Value of `volumes` for the pods                            | `[]`                                   |
+| snmp_exporter.volumeMounts                | Value of `volumeMounts` for the pods                       | `[]`                                   |
+| snmp_exporter.nodeSelector                | Value of `nodeSelector` for the pods                       | `{}`                                   |
+| snmp_exporter.image.repository            | Image repository                                           | `quay.io/prometheus/snmp-exporter`     |
+| snmp_exporter.image.pullPolicy            | Image pull policy                                          | `IfNotPresent`                         |
+| snmp_exporter.image.tag                   | Image tag                                                  | `v0.30.1`                              |
+| snmp_exporter.service.type                | Service type                                               | `ClusterIP`                            |
+| snmp_exporter.service.annotations         | Service annotations                                        | `{}`                                   |
