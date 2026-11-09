@@ -18,6 +18,9 @@ rules:
   resources: ["persistentvolumes"]
   verbs: ["*"]
 {{- end }}
+- apiGroups: ["kubeovn.io"]
+  resources: ["vpcs", "subnets", "ips"]
+  verbs: ["*"]
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -55,6 +58,12 @@ rules:
   resources: ["persistentvolumeclaims"]
   verbs: ["*"]
 {{- end }}
+- apiGroups: ["discovery.k8s.io"]
+  resources: ["endpointslices"]
+  verbs: ["*"]
+- apiGroups: ["k8s.cni.cncf.io"]
+  resources: ["network-attachment-definitions"]
+  verbs: ["*"]
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1

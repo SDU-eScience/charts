@@ -26,11 +26,14 @@ ingressPrefixList:
   - /api/jobs
   - /api/licenses
   - /api/providers
+  - /api/networks
   - /api/networkips
+  - /api/services
   - /api/shares
   - /api/ssh
   - /api/tasks/pauseOrCancel
   - /api/private-networks
+  - /api/private-network-ips
   - /api/containerRepositories
   frontend:
   - /api/auth-callback
