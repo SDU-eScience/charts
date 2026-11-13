@@ -44,6 +44,7 @@ provider:
   service:
     annotations: {}
     type: ClusterIP
+  dnsName: ""
 
 envoy:
   revisionHistoryLimit: 2

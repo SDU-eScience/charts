@@ -73,7 +73,7 @@ spec:
           {{- toYaml .Values.provider.command | nindent 8 }}
         env:
         - name: UCLOUD_IM_SERVICE_NAME
-          value: {{ include "ucloud.provider.deploymentName" . }}.{{ .Release.Namespace }}.svc
+          value: {{ include "ucloud.provider.dnsName" . }}
         ports:
         - containerPort: 7867
           name: metrics

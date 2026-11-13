@@ -118,3 +118,11 @@ Component: Provider
 app.kubernetes.io/name: ucloud-im
 app.kubernetes.io/instance: {{ include "ucloud.provider.deploymentName" . }}
 {{- end }}
+
+{{- define "ucloud.provider.dnsName" -}}
+{{- if .Values.provider.dnsName }}
+{{- .Values.provider.dnsName }}
+{{- else }}
+{{- include "ucloud.provider.deploymentName" . }}.{{ .Release.Namespace }}.svc
+{{- end }}
+{{- end }}

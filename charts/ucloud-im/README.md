@@ -123,6 +123,7 @@ Configuration of the the UCloud/IM deployment.
 | provider.affinity                         | Affinity for provider pods                                               | `{}`                                 |
 | provider.strategyType                     | Strategy type for replacing provider pods                                | `""`                                 |
 | provider.command                          | Overrride the command for the provider container                         | `["/usr/bin/ucloud"]`                |
+| provider.dnsName                          | Alternative DNS name for reaching the provider service                   | `""`                                 |
 | provider.storage.capacity                 | Persistent Volume capacity                                               | `1Gi`                                |
 | provider.storage.className                | Persistent Volume storage class name                                     | `""`                                 |
 | provider.storage.accessModes              | Persistent Volume access modes                                           | `["ReadWriteMany"]`                  |
